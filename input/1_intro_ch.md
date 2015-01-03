@@ -11,9 +11,9 @@
 
 没有人要求你必须使用分布式系统。如果有无限的金钱和无限的研发时间，我们就不需要分布式系统。所有的计算和存储都可以在一个神奇的盒子上完成，一个超级迅速和超级可靠的系统。
 
-但是，很少人有无限的资源。所以，他们要找到现实世界中，找到花销与收益的平衡点。在小规模下，升级硬件是一个可行的策略。不过，随着问题体积变大，你会达到硬件更新无法在单节点下解决问题的临界点。在这种情况下，我热烈欢迎你来到分布式系统的世界。
+但是，很少人有无限的资源。所以，他们要找到现实世界中，找到开销与收益的平衡点。在小规模下，升级硬件是一个可行的策略。不过，随着问题体积变大，你会达到硬件更新无法在单节点下解决问题的临界点。在这种情况下，我热烈欢迎你来到分布式系统的世界。
 
-现在的现实是，最有价值的是中档的商用硬件设备，只要其维护费用可以通过容错软件来降低。
+现实是，最有价值的是中档的商用硬件设备，只要其维护费用可以通过容错软件来降低。
 
 计算主要受益于可以以内存访问替代网络访问的高端硬件。而高端硬件的性能会受限于需要节点间大量通信的任务。
 
@@ -29,24 +29,24 @@
 
 我看待问题的方法，所有事情都需要考虑规模。
 
-大多是事情在小规模时都是微不足道的。但是一旦你超过一定的规模、浏览或其他物理限制时，问题就变得困难。拿起一块巧克力很简单，但是拿起一座山就很难。统计一间房间里的人数很简单，统计一个国家的人数就很难。
+大多是事情在小规模时都是微不足道的。但是一旦你超过一定的规模、流量或其他物理限制时，问题就变得困难。拿起一块巧克力很简单，但是拿起一座山就很难。统计一间房间里的人数很简单，统计一个国家的人数就很难。
 
 所以任何事情都伴随着规模 —— 可扩展性。非正式的说，在一个可扩展系统里，我们从小规模到大规模，事情不应该逐渐的恶化。下面是另一个定义：
 
 <dl>
   <dt>[可扩展性](http://zh.wikipedia.org/wiki/可扩展性)</dt>
-  <dd>是系统，网络或进程能够在处理能力范围内处理不断增长的任务的能力，或者是能够扩展适应增长的能力。</dd>
+  <dd>是系统，网络或进程能够在处理能力范围内处理不断增长的负荷的能力，或者是能够扩展适应增长的能力。</dd>
 </dl>
 
 不断增长的是什么？你几乎可以从任何角度来衡量增长（人口数量，电力使用等等）。但是，有三个有趣的事情：
 
-- Size scalability: adding more nodes should make the system linearly faster; growing the dataset should not increase latency
-- Geographic scalability: it should be possible to use multiple data centers to reduce the time it takes to respond to user queries, while dealing with cross-data center latency in some sensible manner.
-- Administrative scalability: adding more nodes should not increase the administrative costs of the system (e.g. the administrators-to-machines ratio).
+- 规模可扩展性：新增计算节点应该可以使系统线性增速；数据的增长不应该增加时延。
+- 地理可扩展性：在合理范围内处理跨数据中心的时延，使用多个数据中心可以减短用户查询的响应时间。
+- 管理可扩展性：新增计算节点不应该增加系统管理开销。
 
-Of course, in a real system growth occurs on multiple different axes simultaneously; each metric captures just some aspect of growth.
+当然，在现实系统中，增长是同时发生在多个维度的；每一项度量只包含了增长的一些方面。
 
-A scalable system is one that continues to meet the needs of its users as scale increases. There are two particularly relevant aspects - performance and availability - which can be measured in various ways.
+分布式系统能够持续满足用户的扩展需求。其中有两个特别相关的方面 - 性能与可用性 - 可以用多个方法来衡量。
 
 ### Performance (and latency)
 

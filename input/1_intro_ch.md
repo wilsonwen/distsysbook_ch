@@ -48,67 +48,67 @@
 
 分布式系统能够持续满足用户的扩展需求。其中有两个特别相关的方面 - 性能与可用性 - 可以用多个方法来衡量。
 
-### Performance (and latency)
+### 性能 (和时延)
 
 <dl>
-  <dt>[Performance](http://en.wikipedia.org/wiki/Computer_performance)</dt>
-  <dd>is characterized by the amount of useful work accomplished by a computer system compared to the time and resources used.</dd>
+  <dt>[性能](http://en.wikipedia.org/wiki/Computer_performance)</dt>
+  <dd>由计算机系统使用特定时间与资源可完成的任务来量化</dd>
 </dl>
 
-Depending on the context, this may involve achieving one or more of the following:
+基于此，我们希望达到以下一个或多个目标：
 
-- Short response time/low latency for a given piece of work
-- High throughput (rate of processing work)
-- Low utilization of computing resource(s)
+- 短暂的响应时间/低时延
+- 高吞吐率（处理任务的速率）
+- 资源占用率低
 
-There are tradeoffs involved in optimizing for any of these outcomes. For example, a system may achieve a higher throughput by processing larger batches of work thereby reducing operation overhead. The tradeoff would be longer response times for individual pieces of work due to batching.
+优化其中任一项都需要权衡相互的影响。例如，系统可以通过处理较大的批处理任务，从而减少额外操作，达到更高的吞吐率。折衷是，由于批处理单个任务的响应时间会更长。
 
-I find that low latency - achieving a short response time - is the most interesting aspect of performance, because it has a strong connection with physical (rather than financial) limitations. It is harder to address latency using financial resources than the other aspects of performance.
+我发现低时延 - 短响应时间 - 是性能中最有趣的方面，因为其与物理限制有很强的关联。使用经济资源解决时延问题，比解决其他性能问题更加困难。
 
-There are a lot of really specific definitions for latency, but I really like the idea that the etymology of the word evokes:
+时延的定义有很多，其中我最认同的是这个单词创造者的说法：
 
 <dl>
-  <dt>Latency</dt>
-  <dd>The state of being latent; delay, a period between the initiation of something and the occurrence.</dd>
+  <dt>时延</dt>
+  <dd>延迟的状态；事物启动到发生的间隔</dd>
 </dl>
 
-And what does it mean to be "latent"?
+那么延迟意味着什么呢？
 
 <dl>
-  <dt>Latent</dt>
-  <dd>From Latin latens, latentis, present participle of lateo ("lie hidden"). Existing or present but concealed or inactive.</dd>
+  <dt>延迟</dt>
+  <dd>存在但未其作用</dd>
 </dl>
 
-This definition is pretty cool, because it highlights how latency is really the time between something happened and the time it has an impact or becomes visible.
+这个定义很cool，因为它强调了事情发生到其作用的间隔时间。
 
-For example, imagine that you are infected with an airborne virus that turns people into zombies. The latent period is the time between when you became infected, and when you turn into a zombie. That's latency: the time during which something that has already happened is concealed from view.
+例如，想象一下你被僵尸病毒感染了。时延就是你感染病毒到变成僵尸的时间。这就是时延：事情发生却未可见的时间。
 
-Let's assume for a moment that our distributed system does just one high-level task: given a query, it takes all of the data in the system and calculates a single result. In other words, think of a distributed system as a data store with the ability to run a single deterministic computation (function) over its current content:
+我们假设，分布式系统只处理一件高层次的任务：给定一个任务，系统用所有数据计算出一个结果。换句话说，将分布式系统想成是一个具备特定计算能力的数据存储，计算方法为：
 
 `result = query(all data in the system)`
 
-Then, what matters for latency is not the amount of old data, but rather the speed at which new data "takes effect" in the system. For example, latency could be measured in terms of how long it takes for a write to become visible to readers.
+那么，影响时延的不是旧数据的数量，而是新数据起作用的速度。例如，时延由写操作对读者可见的时间来衡量。
 
-The other key point based on this definition is that if nothing happens, there is no "latent period". A system in which data doesn't change doesn't (or shouldn't) have a latency problem.
+这个定义的另一个关键点是，如何没有事情发生，就没有时延。数据不发生改变的系统，没有时延的问题。
 
-In a distributed system, there is a minimum latency that cannot be overcome: the speed of light limits how fast information can travel, and hardware components have a minimum latency cost incurred per operation (think RAM and hard drives but also CPUs).
+在分布式系统中，有一个最低时延是无法克服的：光速限制了信息的传播速度；硬件操作有最低的时延开销。
 
-How much that minimum latency impacts your queries depends on the nature of those queries and the physical distance the information needs to travel.
+最低时延的影响，由查询本身和信息传播的物理距离决定。
 
-### Availability (and fault tolerance)
+### 可用性 (和失效容忍性)
 
-The second aspect of a scalable system is availability.
+可扩展系统的第二个方面就是可用性。
 
 <dl>
-  <dt>[Availability](http://en.wikipedia.org/wiki/High_availability)</dt>
-  <dd>the proportion of time a system is in a functioning condition. If a user cannot access the system, it is said to be unavailable. </dd>
+  <dt>[可用性](http://en.wikipedia.org/wiki/High_availability)</dt>
+  <dd>系统可用的时间比例。如果一个用户不能访问系统，那么该系统即不可用。</dd>
 </dl>
 
-Distributed systems allow us to achieve desirable characteristics that would be hard to accomplish on a single system. For example, a single machine cannot tolerate any failures since it either fails or doesn't.
+分布式系统允许我们实现单机系统很难实现的特性。例如，单机不能容忍任何的失效。
 
-Distributed systems can take a bunch of unreliable components, and build a reliable system on top of them.
+分布式系统由一群不可靠的部分组成，在其之上构建一个可靠的系统。
 
-Systems that have no redundancy can only be as available as their underlying components. Systems built with redundancy can be tolerant of partial failures and thus be more available. It is worth noting that "redundant" can mean different things depending on what you look at - components, servers, datacenters and so on.
+没有冗余的系统的可用性，与其下层部分一样。基于冗余构建的系统能够容忍分区部分失效，从而更加可用。请注意，冗余在不同的层面意义不一样 - 组件，服务器，数据中心等等。
 
 Formulaically, availability is: `Availability = uptime / (uptime + downtime)`.
 

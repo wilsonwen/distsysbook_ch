@@ -95,7 +95,7 @@
 
 最低时延的影响，由查询本身和信息传播的物理距离决定。
 
-### 可用性 (和失效容忍性)
+### 可用性 (和故障容错性)
 
 可扩展系统的第二个方面就是可用性。
 
@@ -104,81 +104,81 @@
   <dd>系统可用的时间比例。如果一个用户不能访问系统，那么该系统即不可用。</dd>
 </dl>
 
-分布式系统允许我们实现单机系统很难实现的特性。例如，单机不能容忍任何的失效。
+分布式系统允许我们实现单机系统很难实现的特性。例如，单机不能容忍任何的故障。
 
 分布式系统由一群不可靠的部分组成，在其之上构建一个可靠的系统。
 
-没有冗余的系统的可用性，与其下层部分一样。基于冗余构建的系统能够容忍分区部分失效，从而更加可用。请注意，冗余在不同的层面意义不一样 - 组件，服务器，数据中心等等。
+没有冗余的系统的可用性，与其下层部分一样。基于冗余构建的系统能够容忍分区部分故障，从而更加可用。请注意，冗余在不同的层面意义不一样 - 组件，服务器，数据中心等等。
 
-Formulaically, availability is: `Availability = uptime / (uptime + downtime)`.
+根据公式，可用性表示为： `Availability = uptime / (uptime + downtime)`。
 
-Availability from a technical perspective is mostly about being fault tolerant. Because the probability of a failure occurring increases with the number of components, the system should be able to compensate so as to not become less reliable as the number of components increases.
+从技术的角度来看，可用性主要是故障容错的能力。因为故障发生的概率会随着系统部件数量而增长，系统应该能够通过技术手段使可靠性不会随着部件数量而增长。
 
-For example:
+例如：
 
 <table>
 <tr>
-  <td>Availability %</td>
-  <td>How much downtime is allowed per year?</td>
+  <td>可用性 %</td>
+  <td>每年的停机时间是多少</td>
 </tr>
 <tr>
-  <td>90% ("one nine")</td>
-  <td>More than a month</td>
+  <td>90% ("1个9")</td>
+  <td>超过一个月</td>
 </tr>
 <tr>
-  <td>99% ("two nines")</td>
-  <td>Less than 4 days</td>
+  <td>99% ("2个9")</td>
+  <td>少于4天</td>
 </tr>
 <tr>
-  <td>99.9% ("three nines")</td>
-  <td>Less than 9 hours</td>
+  <td>99.9% ("3个9")</td>
+  <td>少于9个小时</td>
 </tr>
 <tr>
-  <td>99.99% ("four nines")</td>
-  <td>Less than an hour</td>
+  <td>99.99% ("4个9")</td>
+  <td>少于1个小时</td>
 </tr>
 <tr>
-  <td>99.999% ("five nines")</td>
-  <td>~ 5 minutes</td>
+  <td>99.999% ("5个9")</td>
+  <td>~ 5分钟</td>
 </tr>
 <tr>
-  <td>99.9999% ("six nines")</td>
-  <td>~ 31 seconds</td>
+  <td>99.9999% ("6个9")</td>
+  <td>~ 31秒</td>
 </tr>
 </table>
 
 
-Availability is in some sense a much wider concept than uptime, since the availability of a service can also be affected by, say, a network outage or the company owning the service going out of business (which would be a factor which is not really relevant to fault tolerance but would still influence the availability of the system). But without knowing every single specific aspect of the system, the best we can do is design for fault tolerance.
+广义上说可用性不单单是正常运行时间，因为服务的可用行可能会受网络停电或者公司倒闭影响(这虽然与故障容忍不相关，但确实影响了系统的可用性)。但是在不了解系统的每一方面的情况下。我们能做的就是做好故障容错设计。
 
-What does it mean to be fault tolerant?
+故障容错意味着什么？
 
 <dl>
-  <dt>Fault tolerance</dt>
-  <dd>ability of a system to behave in a well-defined manner once faults occur</dd>
+  <dt>故障容错</dt>
+  <dd>系统在发生故障时正常运行的能力</dd>
 </dl>
 
-Fault tolerance boils down to this: define what faults you expect and then design a system or an algorithm that is tolerant of them. You can't tolerate faults you haven't considered.
+故障容错归结为：定义预料到的故障，然后为其设计一个系统或者算法。你不能容错考虑不到的故障。
 
-## What prevents us from achieving good things?
+## 什么阻碍了我们达成目标？
 
-Distributed systems are constrained by two physical factors:
+分布式系统受限于两个物理因素：
 
-- the number of nodes (which increases with the required storage and computation capacity)
-- the distance between nodes (information travels, at best, at the speed of light)
+- 计算节点的数量（因为存储和计算容量的要求）
+- 计算节点的距离（信息最快以光速传播）
 
-Working within those constraints:
+因为这些限制：
 
-- an increase in the number of independent nodes increases the probability of failure in a system (reducing availability and increasing administrative costs)
-- an increase in the number of independent nodes may increase the need for communication between nodes (reducing performance as scale increases)
-- an increase in geographic distance increases the minimum latency for communication between distant nodes (reducing performance for certain operations)
+- 计算节点的数量增长会导致系统故障的概率增加（降低可用性和增加管理开销）
+- 计算节点的数量增长使节点间通信增加（随着规模增大而性能降低）
+- 地理距离的增加导致节点间的最小时延变大（特定的操作会降低性能）
 
-Beyond these tendencies - which are a result of the physical constraints - is the world of system design options.
+这些物理限制引入的变化，就是系统设计世界里的选项。
 
-Both performance and availability are defined by the external guarantees the system makes. On a high level, you can think of the guarantees as the SLA (service level agreement) for the system: if I write data, how quickly can I access it elsewhere? After the data is written, what guarantees do I have of durability? If I ask the system to run a computation, how quickly will it return results? When components fail, or are taken out of operation, what impact will this have on the system?
+性能与可用性是由系统外部保证来定义的。在一个高层次上，你可以将这些保证看成是系统的SLA(服务水平协议）：如果写入数据，其他地方访问需要多久？数据写入后，能够得到怎样的持久性保证？如果我向系统发送计算请求，需要多久返回结果？当部件发生故障或者卸下以后，系统会有什么样的影响？
 
-There is another criterion, which is not explicitly mentioned but implied: intelligibility. How understandable are the guarantees that are made? Of course, there are no simple metrics for what is intelligible.
+这里有另外一个没有明确提出的评判标准：可理解性。这些协议的可理解性如何？当然，并没有可理解度的简单衡量方法。
 
-I was kind of tempted to put "intelligibility" under physical limitations. After all, it is a hardware limitation in people that we have a hard time understanding anything that involves [more moving things than we have fingers](http://en.wikipedia.org/wiki/Working_memory#Capacity). That's the difference between an error and an anomaly - an error is incorrect behavior, while an anomaly is unexpected behavior. If you were smarter, you'd expect the anomalies to occur.
+我倾向与将可理解性放在物理限制下面。毕竟，人们对理解物理限制的方方面面花费了很多时间[我们只考虑了部分](http://en.wikipedia.org/wiki/Working_memory#Capacity)。错误与异常有区别，错误指的是不正确的行为，而异常是指意想不到的行为。如果你聪明，就要预料到异常会发生。
 
 ## Abstractions and models
 

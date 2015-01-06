@@ -180,13 +180,13 @@
 
 我倾向与将可理解性放在物理限制下面。毕竟，人们对理解物理限制的方方面面花费了很多时间[我们只考虑了部分](http://en.wikipedia.org/wiki/Working_memory#Capacity)。错误与异常有区别，错误指的是不正确的行为，而异常是指意想不到的行为。如果你聪明，就要预料到异常会发生。
 
-## Abstractions and models
+## 抽象与建模
 
-This is where abstractions and models come into play. Abstractions make things more manageable by removing real-world aspects that are not relevant to solving a problem. Models describe the key properties of a distributed system in a precise manner. I'll discuss many kinds of models in the next chapter, such as:
+下面来说说抽象与建模。抽象通过移除真实世界中问题无关的方面，使得一切更加可控。模型用一种简洁的方式描述了分布式系统中的关键属性。我将会在下一章中讨论很多中模型，例如：
 
-- System model (asynchronous / synchronous)
-- Failure model (crash-fail, partitions, Byzantine)
-- Consistency model (strong, eventual)
+- 系统模型（异步/同步）
+- 故障模型（崩溃故障，分区，拜占庭）
+- 一致性模型（强一致性，最终一致性）
 
 A good abstraction makes working with a system easier to understand, while capturing the factors that are relevant for a particular purpose.
 

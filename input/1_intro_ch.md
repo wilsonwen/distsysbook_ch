@@ -188,23 +188,23 @@
 - 故障模型（崩溃故障，分区，拜占庭）
 - 一致性模型（强一致性，最终一致性）
 
-A good abstraction makes working with a system easier to understand, while capturing the factors that are relevant for a particular purpose.
+一个好的抽象能够涵盖相关的关注点，使得系统更加容易理解。
 
-There is a tension between the reality that there are many nodes and with our desire for systems that "work like a single system". Often, the most familiar model (for example, implementing a shared memory abstraction on a distributed system) is too expensive.
+现实中我们会有许多的计算节点，与我们期待的像单机系统一样工作存在着落差。通常，最熟悉的模型（例如，实现一个具备共享内存抽象的分布式系统）代价太大。
 
-A system that makes weaker guarantees has more freedom of action, and hence potentially greater performance - but it is also potentially hard to reason about. People are better at reasoning about systems that work like a single system, rather than a collection of nodes.
+系统，如果做出稍微弱一点的保证，能够得到更大的自由，从而得到更好的性能。但是也更加难以对其推论。如单机一样工作的系统比多节点系统更加容易进行推论。
 
-One can often gain performance by exposing more details about the internals of the system. For example, in [columnar storage](http://en.wikipedia.org/wiki/Column-oriented_DBMS), the user can (to some extent) reason about the locality of the key-value pairs within the system and hence make decisions that influence the performance of typical queries. Systems which hide these kinds of details are easier to understand (since they act more like single unit, with fewer details to think about), while systems that expose more real-world details may be more performant (because they correspond more closely to reality).
+通过暴露系统内部更多的细节，可以提升系统的性能。例如，在[列式存储](http://en.wikipedia.org/wiki/Column-oriented_DBMS)，用户可以推理出键值对在系统内的局部性，然后对典型查询的影响做出决定。而隐藏这些细节的系统更加容易理解（因为它们更多的作为一个单体，而无须考虑过多的细节），系统暴露更多的细节性能更好（因为它们贴切的反映了现实）。
 
-Several types of failures make writing distributed systems that act like a single system difficult. Network latency and network partitions (e.g. total network failure between some nodes) mean that a system needs to sometimes make hard choices about whether it is better to stay available but lose some crucial guarantees that cannot be enforced, or to play it safe and refuse clients when these types of failures occur.
+许多种类型的故障使得编写像单机一样的分布式系统更加困难。网络时延和网络分区（计算节点间的网络故障）意味着有时需要做出艰难的抉择，是为了保持可用而损失一些重要的保证，还是为了安全而拒绝客户访问。
 
-The CAP theorem - which I will discuss in the next chapter - captures some of these tensions. In the end, the ideal system meets both programmer needs (clean semantics) and business needs (availability/consistency/latency).
+CAP理论 - 我们下一章会讨论 - 涵盖了上面描述的冲突。最终，理想的系统既满足程序员的需要（简洁的语义）和业务需要（可用性/一致性/时延）。
 
-## Design techniques: partition and replicate
+## 设计技术：分区与副本
 
-The manner in which a data set is distributed between multiple nodes is very important. In order for any computation to happen, we need to locate the data and then act on it.
+数据分布在多个数据节点的原则是非常重要的。需要计算时，我们要定位到数据所在节点。
 
-There are two basic techniques that can be applied to a data set. It can be split over multiple nodes (partitioning) to allow for more parallel processing. It can also be copied or cached on different nodes to reduce the distance between the client and the server and for greater fault tolerance (replication).
+有两种基础的技术可以运用在数据上。数据切分在多个数据节点（分区）运行进行并行处理。数据也可以复制或者缓存在不同的节点上从而减少服务器到客户端的距离和获得更好的故障容错能力（复制备份）。
 
 > Divide and conquer - I mean, partition and replicate.
 

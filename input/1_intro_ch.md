@@ -206,9 +206,9 @@ CAP理论 - 我们下一章会讨论 - 涵盖了上面描述的冲突。最终�
 
 有两种基础的技术可以运用在数据上。数据切分在多个数据节点（分区）运行进行并行处理。数据也可以复制或者缓存在不同的节点上从而减少服务器到客户端的距离和获得更好的故障容错能力（复制备份）。
 
-> Divide and conquer - I mean, partition and replicate.
+> 分而治之 - 我指的是，分区与副本
 
-The picture below illustrates the difference between these two: partitioned data (A and B below) is divided into independent sets, while replicated data (C below) is copied to multiple locations.
+以下这张图片描述了两者之间的区别：分片的数据（A和B）被划分在两个不同的集合里，而副本数据（C）复制到多个节点。
 
 ![Partition and replicate](images/part-repl.png)
 

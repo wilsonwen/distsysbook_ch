@@ -210,9 +210,9 @@ CAP理论 - 我们下一章会讨论 - 涵盖了上面描述的冲突。最终�
 
 以下这张图片描述了两者之间的区别：分片的数据（A和B）被划分在两个不同的集合里，而副本数据（C）复制到多个节点。
 
-![Partition and replicate](images/part-repl.png)
+![分区与副本](images/part-repl.png)
 
-This is the one-two punch for solving any problem where distributed computing plays a role. Of course, the trick is in picking the right technique for your concrete implementation; there are many algorithms that implement replication and partitioning, each with different limitations and advantages which need to be assessed against your design objectives.
+这是用来解决分布式计算遇到任何问题的组合拳。当然，技巧在于选择合适的技术用到具体实现中。有许许多多的算法，实现复制与分区，每一个都有不同的限制与优势，你需要根据设计目标进行评估取舍。
 
 ### Partitioning
 

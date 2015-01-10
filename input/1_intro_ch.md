@@ -214,43 +214,41 @@ CAP理论 - 我们下一章会讨论 - 涵盖了上面描述的冲突。最终�
 
 这是用来解决分布式计算遇到任何问题的组合拳。当然，技巧在于选择合适的技术用到具体实现中。有许许多多的算法，实现复制与分区，每一个都有不同的限制与优势，你需要根据设计目标进行评估取舍。
 
-### Partitioning
+### 分区
 
-Partitioning is dividing the dataset into smaller distinct independent sets; this is used to reduce the impact of dataset growth since each partition is a subset of the data.
+分区是将数据集划分到多个小的独立集合。这用来减少数据集增长带来的影响，因为没一个分区都是一个数据的子集。
 
-- Partitioning improves performance by limiting the amount of data to be examined and by locating related data in the same partition
-- Partitioning improves availability by allowing partitions to fail independently, increasing the number of nodes that need to fail before availability is sacrificed
+- 分区通过限制扫描数据的数量和将相关数据分到同一分区来改善性能。
+- 分区通过允许各个分区独立失效来提高可用性，在牺牲可用性之前增加节点的数量。
 
-Partitioning is also very much application-specific, so it is hard to say much about it without knowing the specifics. That's why the focus is on replication in most texts, including this one.
+同时，分区与实际应用有很强的关联，所以很难在不清楚具体细节时进行讨论。这就是为什么我更多的会讨论副本。
 
-Partitioning is mostly about defining your partitions based on what you think the primary access pattern will be, and dealing with the limitations that come from having independent partitions (e.g. inefficient access across partitions, different rate of growth etc.).
+### 副本
 
-### Replication
+副本即在多个机器上存储同一分数据；这允许更多的服务器参与到计算。
 
-Replication is making copies of the same data on multiple machines; this allows more servers to take part in the computation.
+引自 [Homer J. Simpson](http://en.wikipedia.org/wiki/Homer_vs._the_Eighteenth_Amendment):
 
-Let me inaccurately quote [Homer J. Simpson](http://en.wikipedia.org/wiki/Homer_vs._the_Eighteenth_Amendment):
+> 副本！是所有问题的原因和解决方法。
 
-> To replication! The cause of, and solution to all of life's problems.
+副本 - 复制和重新生成事物 - 是我们与时延做斗争的主要方法。
 
-Replication - copying or reproducing something - is the primary way in which we can fight latency.
+- 副本通过拷贝的数据利用更多的计算资源和带宽，从而提升性能。
+- 副本通过创建数据的拷贝，在牺牲可用性前增加可能出现故障的节点，从而提高可用性。
 
-- Replication improves performance by making additional computing power and bandwidth applicable to a new copy of the data
-- Replication improves availability by creating additional copies of the data, increasing the number of nodes that need to fail before availability is sacrificed
+副本是关于提供额外的带宽，和在高负载的地方提供缓存。也是关于根据一致性模型维护一致性。
 
-Replication is about providing extra bandwidth, and caching where it counts. It is also about maintaining consistency in some way according to some consistency model.
+副本可是使我们获得可扩展性，性能和故障容错性。害怕失去可用性或者性能降低？复制数据从而避免但点故障。计算太慢？复制数据到多个系统上。IO太慢？复制数据到本地缓存减少时延或者复制到多台机器上增加吞吐率。
 
-Replication allows us to achieve scalability, performance and fault tolerance. Afraid of loss of availability or reduced performance? Replicate the data to avoid a bottleneck or single point of failure. Slow computation? Replicate the computation on multiple systems. Slow I/O? Replicate the data to a local cache to reduce latency or onto multiple machines to increase throughput.
+副本也是许多问题的根源，因为副本导致多个独立的数据拷贝需要在多个机器间进行同步 - 这意味这要保证副本遵循一定的一致性模型。
 
-Replication is also the source of many of the problems, since there are now independent copies of the data that has to be kept in sync on multiple machines - this means ensuring that the replication follows a consistency model.
+一致性模型的选择非常关键：一个好的一致性模型为程序员提供了简洁的语义（换句话说，其提供的保证是非常容易推论的）和满足业务／设计的需求，例如高可用性或者强一致性。
 
-The choice of a consistency model is crucial: a good consistency model provides clean semantics for programmers (in other words, the properties it guarantees are easy to reason about) and meets business/design goals such as high availability or strong consistency.
-
-Only one consistency model for replication - strong consistency - allows you to program as-if the underlying data was not replicated. Other consistency models expose some internals of the replication to the programmer. However, weaker consistency models can provide lower latency and higher availability - and are not necessarily harder to understand, just different.
+副本的唯一一致性模型 - 强一致性 - 允许像没有副本一样进行编程。另一种一致性模型暴露副本的内部细节给程序员。但是，若一致性可以提供更低的时延和高可用性 - 同时并不会更难于理解，只是不一样。
 
 ---
 
-## Further reading
+## 更多的阅读材料
 
 - [The Datacenter as a Computer - An Introduction to the Design of Warehouse-Scale Machines](http://www.morganclaypool.com/doi/pdf/10.2200/s00193ed1v01y200905cac006) - Barroso &  Hölzle, 2008
 - [Fallacies of Distributed Computing](http://en.wikipedia.org/wiki/Fallacies_of_Distributed_Computing)

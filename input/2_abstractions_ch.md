@@ -6,22 +6,22 @@
 
 我曾经说过，分布式编程很大一部分是关于处理引入分布式的后果（无趣！）。就是，存在许多计算节点的现实和像单机一样工作的愿景有差距。意味着，找到一个抽象，能够权衡什么是可能的和什么是易于理解与高性能的。
 
-What do we mean when say X is more abstract than Y? First, that X does not introduce anything new or fundamentally different from Y. In fact, X may remove some aspects of Y or present them in a way that makes them more manageable.
-Second, that X is in some sense easier to grasp than Y, assuming that the things that X removed from Y are not important to the matter at hand.
+当我们说X比Y更加抽象时，指的是什么呢？首先，X并不会引入任何相对于Y新的或本质区别的东西。事实上，X可能会去除Y的某些方面，或者以一种更加容易管理的方式呈现。
+其次，X相对于Y某种程度上更加容易理解，因为X去除了Y中与问题无关紧要的部分。
 
-As [Nietzsche](http://oregonstate.edu/instruct/phl201/modules/Philosophers/Nietzsche/Truth_and_Lie_in_an_Extra-Moral_Sense.htm) wrote:
+如[尼采](http://oregonstate.edu/instruct/phl201/modules/Philosophers/Nietzsche/Truth_and_Lie_in_an_Extra-Moral_Sense.htm) 所说:
 
-> Every concept originates through our equating what is unequal. No leaf ever wholly equals another, and the concept "leaf" is formed through an arbitrary abstraction from these individual differences, through forgetting the distinctions; and now it gives rise to the idea that in nature there might be something besides the leaves which would be "leaf" - some kind of original form after which all leaves have been woven, marked, copied, colored, curled, and painted, but by unskilled hands, so that no copy turned out to be a correct, reliable, and faithful image of the original form.
+> 每一个概念源自于我们不平等的等价衡量。没有任何一片叶子是与其它的完全相等，而叶子的概念来自于对这些个体差异的一个任意抽象，暂时忘记他们的差异。而现在出现了一种理论，在自然中存在一个源头形式的‘叶子’，其他所有的叶子都是从它进行修剪，标记，拷贝，上色，卷曲和绘制而成，所以没有一个拷贝是源头的正确，可靠，准确的影像。
 
-Abstractions, fundamentally, are fake. Every situation is unique, as is every node. But abstractions make the world manageable: simpler problem statements - free of reality - are much more analytically tractable and provided that we did not ignore anything essential, the solutions are widely applicable.
+抽象，从本质上看，是假的。每一个情况都是唯一的，节点也是。但是抽象使得世界变得易于管理：问题的简单陈述 - 摆脱于现实 - 更加易于分析跟踪，但仍提供了不容忽视的细节，这个方法可以广泛的使用。
 
-Indeed, if the things that we kept around are essential, then the results we can derive will be widely applicable. This is why impossibility results are so important: they take the simplest possible formulation of a problem, and demonstrate that it is impossible to solve within some set of constraints or assumptions.
+事实上，如果我们保留的东西是必需的，那么我们得出的结果就可以广泛使用。这就是为什么‘不可能结果’这么重要：其抽取了问题最简单的公式，然后阐述其在某些限制与假设下，是不可能解决的。
 
-All abstractions ignore something in favor of equating things that are in reality unique. The trick is to get rid of everything that is not essential. How do you know what is essential? Well, you probably won't know a priori.
+所有的抽象忽视有利于现实中唯一事物进行等价的条件。这个技巧是去除所有不是必需的东西。如何知道什么是必需的？好吧，你可能不是先知。
 
-Every time we exclude some aspect of a system from our specification of the system, we risk introducing a source of error and/or a performance issue. That's why sometimes we need to go in the other direction, and selectively introduce some aspects of real hardware and the real-world problem back. It may be sufficient to reintroduce some specific hardware characteristics (e.g. physical sequentiality) or other physical characteristics to get a system that performs well enough.
+每次我们将系统规格里的某些方面排除的时候，我们将会遇上引入错误或者性能问题的风险。这就是为什么有时我们需要反过来，选择性的引入真实硬件和真实世界问题。重新引入一些特定的硬件特征（物理顺序）或者物理特征，足够使得系统运行稳定。
 
-With this in mind, what is the least amount of reality we can keep around while still working with something that is still recognizable as a distributed system? A system model is a specification of the characteristics we consider important; having specified one, we can then take a look at some impossibility results and challenges.
+基于此，现实中什么是我们能够留下，同时能够持续运行也能够被看成是一个分布式系统？一个系统模型，是我们认为一个系统中重要的特征。通过一个例子，我们可以观察下一些‘不可能结果’和挑战。
 
 ## A system model
 

@@ -23,21 +23,21 @@
 
 基于此，现实中什么是我们能够留下，同时能够持续运行也能够被看成是一个分布式系统？一个系统模型，是我们认为一个系统中重要的特征。通过一个例子，我们可以观察下一些‘不可能结果’和挑战。
 
-## A system model
+## 一个系统模型
 
-A key property of distributed systems is distribution. More specifically, programs in a distributed system:
+分布式系统的一个关键属性是分布式。更具体而言，分布式系统中的程序：
 
-- run concurrently on independent nodes ...
-- are connected by a network that may introduce nondeterminism and message loss ...
-- and have no shared memory or shared clock.
+- 在各节点中独立的并发运行
+- 由网络连接，而网络可能引入不确定性和消息丢失......
+- 没有共享内存和共享时钟
 
-There are many implications:
+这暗示着：
 
-- each node executes a program concurrently
-- knowledge is local: nodes have fast access only to their local state, and any information about global state is potentially out of date
-- nodes can fail and recover from failure independently
-- messages can be delayed or lost (independent of node failure; it is not easy to distinguish network failure and node failure)
-- and clocks are not synchronized across nodes (local timestamps do not correspond to the global real time order, which cannot be easily observed)
+- 各节点并发运行程序
+- 局部信息：节点之能够快速的访问到本地状态，而任何全局状态的信息都可能是过时的
+- 节点可能独立的发生故障并且从故障中恢复
+- 消息可能会延迟或者丢失（与节点故障不同；分辨出网络故障和节点故障并不容易）
+- 节点间的时钟并不同步（本地时间戳并不与全局实时顺序对应，这并不容易观察得到）
 
 A system model enumerates the many assumptions associated with a particular system design.
 

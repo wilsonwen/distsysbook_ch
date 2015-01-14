@@ -39,7 +39,7 @@
 - 消息可能会延迟或者丢失（与节点故障不同；分辨出网络故障和节点故障并不容易）
 - 节点间的时钟并不同步（本地时间戳并不与全局实时顺序对应，这并不容易观察得到）
 
-A system model enumerates the many assumptions associated with a particular system design.
+一个系统模型枚举所有与特定系统设计相关的假设。
 
 <dl>
   <dt>System model</dt>

@@ -42,8 +42,8 @@
 一个系统模型枚举所有与特定系统设计相关的假设。
 
 <dl>
-  <dt>System model</dt>
-  <dd>a set of assumptions about the environment and facilities on which a distributed system is implemented</dd>
+  <dt>系统模型</dt>
+  <dd>是与实现一个分布式系统的环境与设施相关的假设</dd>
 </dl>
 
 System models vary in their assumptions about the environment and facilities. These assumptions include:
